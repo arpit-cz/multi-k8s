@@ -10,13 +10,13 @@ script:
 
 after_success:
   - docker build -t arpitpriv/multi-client ./client
-  - docker build -t arpit/multi-nginx ./nginx
-  - docker build -t arpit/multi-server ./server
-  - docker build -t arpit/multi-worker ./worker
+  - docker build -t arpitpriv/multi-nginx ./nginx
+  - docker build -t arpitpriv/multi-server ./server
+  - docker build -t arpitpriv/multi-worker ./worker
 
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
   - docker push arpitpriv/multi-client
-  - docker push arpit/multi-nginx
-  - docker push arpit/multi-server
-  - docker push arpit/multi-worker
+  - docker push arpitpriv/multi-nginx
+  - docker push arpitpriv/multi-server
+  - docker push arpitpriv/multi-worker
