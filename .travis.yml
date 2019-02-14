@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t arpit/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run arpit/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t arpit/multi-client ./client
+  - docker build -t arpit/multi-nginx ./nginx
+  - docker build -t arpit/multi-server ./server
+  - docker build -t arpit/multi-worker ./worker
+
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+  - docker push arpit/multi-client
+  - docker push arpit/multi-nginx
+  - docker push arpit/multi-server
+  - docker push arpit/multi-worker
